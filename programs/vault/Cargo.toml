@@ -1,0 +1,27 @@
+[package]
+name = "certora_vault_tutorial"
+version = "0.1.0"
+description = "Certora Vault Example Tutorial"
+edition = "2021"
+license = "MIT"
+publish = false
+
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "certora_vault"
+
+[features]
+default = []
+no-entrypoint = []
+cpi = ["no-entrypoint"]
+certora = ["no-entrypoint", "dep:cvlr", "dep:cvlr-solana"]
+
+[dependencies]
+solana-program.workspace = true
+bytemuck.workspace = true
+
+cvlr = { workspace = true, optional = true }
+cvlr-solana = { workspace = true, optional = true }
+
+
