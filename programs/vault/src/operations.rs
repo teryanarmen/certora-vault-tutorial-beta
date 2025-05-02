@@ -70,3 +70,56 @@ pub fn vault_process_slash(vault: &mut Vault, slash_amt: u64) -> VaultResult<Vau
         ..Default::default()
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use solana_program::pubkey::Pubkey;
+
+    fn new_test_vault() -> Vault {
+        Vault {
+            admin: Pubkey::default(),
+            shares_mint: Pubkey::default(),
+            assets_mint: Pubkey::default(),
+            shares: 100,
+            assets: 100,
+            fee_bps: 500, // 5%
+            fee_token_account: Pubkey::default(),
+        }
+    }
+
+    #[test]
+    fn test_vault_deposit_assets() {
+        let mut vault = new_test_vault();
+        let effect = vault_deposit_assets(&mut vault, 50).unwrap();
+        assert_eq!(effect.shares_to_user, 50);
+        assert_eq!(effect.assets_to_vault, 50);
+        assert_eq!(vault.assets, 150);
+        assert_eq!(vault.shares, 150);
+    }
+
+    #[test]
+    fn test_vault_redeem_shares() {
+        let mut vault = new_test_vault();
+        let effect = vault_redeem_shares(&mut vault, 40).unwrap();
+        assert_eq!(effect.assets_to_user, 40);
+        assert_eq!(effect.shares_to_burn, 40);
+        assert_eq!(vault.assets, 60);
+        assert_eq!(vault.shares, 60);
+    }
+
+    #[test]
+    fn test_vault_process_slash() {
+        let mut vault = new_test_vault();
+        let effect = vault_process_slash(&mut vault, 20);
+        assert!(effect.is_err());
+    }
+
+    #[test]
+    fn test_vault_update_reward() {
+        let mut vault = new_test_vault();
+        let result = vault_update_reward(&mut vault, 150).unwrap();
+        assert_eq!(vault.assets, 150);
+        assert_eq!(result, VaultEffect::default());
+    }
+}
