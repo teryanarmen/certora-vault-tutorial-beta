@@ -2,7 +2,7 @@ use crate::{state::Vault, utils::math::FeeBps, VaultError, VaultResult};
 
 /// Vault operations
 
-#[derive(Default, Copy, Clone)]
+#[derive(Default, Copy, Clone, PartialEq, Eq, Debug)]
 pub struct VaultEffect {
     pub shares_to_burn: u64,
     pub shares_to_user: u64,
