@@ -1,4 +1,7 @@
-use crate::errors::{VaultError, VaultResult};
+use crate::{
+    errors::{VaultError, VaultResult},
+    utils::guards::require_le,
+};
 
 #[cfg(not(feature = "certora"))]
 mod inner {
@@ -58,3 +61,33 @@ mod inner {
 }
 
 pub use inner::*;
+
+pub struct GrossAmount {
+    pub net_amount: u64,
+    pub fee: u64,
+}
+
+const ONE_IN_BPS: u64 = 10_000u64;
+pub struct FeeBps(u64);
+
+impl TryFrom<u64> for FeeBps {
+    type Error = VaultError;
+    fn try_from(value: u64) -> Result<Self, Self::Error> {
+        require_le!(value, ONE_IN_BPS);
+        Ok(FeeBps(value))
+    }
+}
+
+impl FeeBps {
+    pub fn apply(&self, amt: u64) -> VaultResult<GrossAmount> {
+        let fee = mul_div_floor(amt, self.0, ONE_IN_BPS)?;
+        let net_amount = amt.checked_sub(fee).ok_or(VaultError::MathOverflow)?;
+        Ok(GrossAmount { net_amount, fee })
+    }
+
+    pub fn apply_ceil(&self, amt: u64) -> VaultResult<GrossAmount> {
+        let fee = mul_div_ceil(amt, self.0, ONE_IN_BPS)?;
+        let net_amount = amt.checked_sub(fee).ok_or(VaultError::MathOverflow)?;
+        Ok(GrossAmount { net_amount, fee })
+    }
+}

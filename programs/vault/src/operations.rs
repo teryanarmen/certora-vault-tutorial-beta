@@ -1,4 +1,4 @@
-use crate::{state::Vault, VaultError, VaultResult};
+use crate::{state::Vault, utils::math::FeeBps, VaultError, VaultResult};
 
 /// Vault operations
 
@@ -13,12 +13,30 @@ pub struct VaultEffect {
 
 pub fn vault_deposit_assets(vault: &mut Vault, tkn_amt: u64) -> VaultResult<VaultEffect> {
     let shares_to_user = vault.convert_assets_to_shares(tkn_amt)?;
+
     vault.mint_shares(shares_to_user)?;
     vault.add_token(tkn_amt)?;
 
     Ok(VaultEffect {
         shares_to_user,
         assets_to_vault: tkn_amt,
+        ..Default::default()
+    })
+}
+
+pub fn vault_deposit_assets_with_fee(vault: &mut Vault, tkn_amt: u64) -> VaultResult<VaultEffect> {
+    let fee_bps: FeeBps = vault.fee_bps.try_into()?;
+    let gross = fee_bps.apply(tkn_amt)?;
+
+    let shares_to_user = vault.convert_assets_to_shares(gross.net_amount)?;
+
+    vault.mint_shares(shares_to_user)?;
+    vault.add_token(gross.net_amount)?;
+
+    Ok(VaultEffect {
+        shares_to_user,
+        assets_to_vault: gross.net_amount,
+        assets_to_fee: gross.fee,
         ..Default::default()
     })
 }
