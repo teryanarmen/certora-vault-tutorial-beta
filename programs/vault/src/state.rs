@@ -55,14 +55,7 @@ impl Vault {
 
         Ok(shares)
     }
-
-    pub fn withdraw(&mut self, shares: u64) -> VaultResult<u64> {
-        let tkn_for_user = self.convert_shares_to_assets(shares)?;
-        self.burn_shares(shares)?;
-        self.del_token(tkn_for_user)?;
-        Ok(tkn_for_user)
-    }
-
+    
     pub fn burn_shares(&mut self, amt: u64) -> VaultResult<()> {
         self.shares = self
             .shares
