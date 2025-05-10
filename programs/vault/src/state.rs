@@ -39,7 +39,7 @@ impl Vault {
     }
 
     pub fn fee_in_bps(&self) -> VaultResult<FeeBps> {
-        Ok(u64::from(self.fee_bps).try_into()?)
+        u64::from(self.fee_bps).try_into()
     }
 
     pub fn is_solvent(&self) -> bool {

@@ -28,7 +28,7 @@ pub fn process_deposit(accounts: &[AccountInfo], amount: u64) -> ProgramResult {
 
     let effect = {
         let mut vault = vault_info.get_mut()?;
-        vault_deposit_assets(&mut *vault, amount).map_err(|e| -> ProgramError { e.into() })?
+        vault_deposit_assets(&mut vault, amount).map_err(|e| -> ProgramError { e.into() })?
     };
 
     spl_transfer_assets_to_vault(
@@ -72,7 +72,7 @@ pub fn process_redeem_shares(accounts: &[AccountInfo], amount: u64) -> ProgramRe
 
     let effect = {
         let mut vault = vault_info.get_mut()?;
-        vault_redeem_shares(&mut *vault, amount)?
+        vault_redeem_shares(&mut vault, amount)?
     };
 
     spl_burn_shares(
@@ -110,7 +110,7 @@ pub fn process_update_reward(accounts: &[AccountInfo]) -> ProgramResult {
 
     let _effect = {
         let mut vault = vault_info.get_mut()?;
-        vault_update_reward(&mut *vault, vault_asset_account_amount)?;
+        vault_update_reward(&mut vault, vault_asset_account_amount)?
     };
 
     Ok(())
