@@ -2,10 +2,10 @@
 mod inner {
     #[rustfmt::skip]
     macro_rules! impl_bin_require {
-        ($name: ident, $pred: tt, $err: expr $dollar: tt) => {
+        ($name: ident, $pred: tt, $dollar: tt) => {
             #[macro_export]
             macro_rules! $name {
-                    ($lhs: expr, $rhs: expr $dollar(, $desc: literal)? ) => {{
+                    ($lhs: expr, $rhs: expr, $err: expr $dollar(, $desc: literal)? ) => {{
                         if $lhs $pred $rhs { } else { return Err($err); }
                     }};
                 }
@@ -13,6 +13,16 @@ mod inner {
         };
     }
     pub(crate) use impl_bin_require;
+
+    macro_rules! require {
+        ($cond: expr, $err: expr $(, $desc:literal)? ) => {{
+            if $cond  { } else { return Err($err); } 
+
+        }};
+    }
+
+    pub(crate) use require;
+
 }
 
 #[cfg(feature = "certora")]

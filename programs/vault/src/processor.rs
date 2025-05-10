@@ -20,7 +20,11 @@ pub fn process_deposit(accounts: &[AccountInfo], amount: u64) -> ProgramResult {
         spl_token_program,
     } = DepositContext::load(accounts)?;
 
-    require_ne!(vault_assets_account.key, user_assets_account.key, VaultError::SelfTransfer);
+    require_ne!(
+        vault_assets_account.key,
+        user_assets_account.key,
+        crate::errors::VaultError::SelfTransfer.into()
+    );
 
     let effect = {
         let mut vault = vault_info.get_mut()?;
@@ -60,7 +64,11 @@ pub fn process_redeem_shares(accounts: &[AccountInfo], amount: u64) -> ProgramRe
         spl_token_program,
     } = context;
 
-    require_ne!(vault_assets_account.key, user_assets_account.key, VaultError::SelfTransfer);
+    require_ne!(
+        vault_assets_account.key,
+        user_assets_account.key,
+        crate::errors::VaultError::SelfTransfer.into()
+    );
 
     let effect = {
         let mut vault = vault_info.get_mut()?;
