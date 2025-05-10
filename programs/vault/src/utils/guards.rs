@@ -16,13 +16,14 @@ mod inner {
 
     macro_rules! require {
         ($cond: expr, $err: expr $(, $desc:literal)? ) => {{
-            if $cond  { } else { return Err($err); } 
-
+            if $cond {
+            } else {
+                return Err($err);
+            }
         }};
     }
 
     pub(crate) use require;
-
 }
 
 #[cfg(feature = "certora")]
@@ -41,11 +42,12 @@ mod inner {
     }
     pub(crate) use impl_bin_require;
 
-
     macro_rules! require {
         ($cond: expr, $err: expr $(, $desc:literal)? ) => {{
-            if $cond  { } else { panic!(); } 
-
+            if $cond {
+            } else {
+                panic!();
+            }
         }};
     }
 

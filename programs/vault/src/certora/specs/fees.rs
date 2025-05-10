@@ -5,8 +5,3 @@ use cvlr::prelude::*;
 pub fn rule_fees_assessed() {
     base_deposit_assets_with_fee::<FeeAssessedProp>();
 }
-
-
-
-
-

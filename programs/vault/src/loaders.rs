@@ -32,9 +32,8 @@ impl<'info> AsRef<AccountInfo<'info>> for Signer<'info> {
     }
 }
 
-
 pub struct SplTokenProgramInfo<'info> {
-    pub info: AccountInfo<'info>
+    pub info: AccountInfo<'info>,
 }
 
 impl<'info> TryFrom<&AccountInfo<'info>> for SplTokenProgramInfo<'info> {
@@ -50,8 +49,6 @@ impl<'info> AsRef<AccountInfo<'info>> for SplTokenProgramInfo<'info> {
         &self.info
     }
 }
-
-
 
 pub struct VaultInfo<'info> {
     info: AccountInfo<'info>,
@@ -121,7 +118,7 @@ impl<'info> DepositContext<'info> {
             self.assets_mint.key,
             ProgramError::InvalidArgument
         );
-        
+
         require_eq!(
             &vault.shares_mint,
             self.shares_mint.key,
@@ -175,7 +172,7 @@ impl<'info> RedeemSharesContext<'info> {
             self.assets_mint.key,
             ProgramError::InvalidArgument
         );
-        
+
         require_eq!(
             &vault.shares_mint,
             self.shares_mint.key,
@@ -205,7 +202,8 @@ impl<'info> RedeemSharesContext<'info> {
             authority: next_account_info(iter)?.try_into()?,
             user_assets_account: next_account_info(iter)?.clone(),
             spl_token_program: next_account_info(iter)?.try_into()?,
-        }.validate()
+        }
+        .validate()
     }
 }
 
@@ -234,6 +232,7 @@ impl<'info> UpdateRewardContext<'info> {
         Self {
             vault_info: next_account_info(iter)?.try_into()?,
             vault_assets_account: next_account_info(iter)?.clone(),
-        }.validate()
+        }
+        .validate()
     }
 }

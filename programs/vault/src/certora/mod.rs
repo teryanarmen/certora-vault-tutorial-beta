@@ -12,5 +12,3 @@ pub mod constants;
 
 #[cfg(feature = "certora")]
 pub mod specs;
-
-

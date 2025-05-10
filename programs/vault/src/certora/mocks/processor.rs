@@ -43,7 +43,7 @@ pub fn spl_transfer_assets_to_user<'a>(
     authority: &AccountInfo<'a>,
     _spl_token_program: &AccountInfo<'a>,
 ) -> ProgramResult {
-    cvlr_solana::token::spl_token_2022_transfer( vault_assets, user_assets, authority, amount)
+    cvlr_solana::token::spl_token_2022_transfer(vault_assets, user_assets, authority, amount)
 }
 
 pub fn spl_token_account_amount(info: &AccountInfo) -> Result<u64, ProgramError> {

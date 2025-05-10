@@ -26,6 +26,3 @@ pub fn rule_no_dilution_update_reward() {
 pub fn rule_no_dilution_process_slash() {
     base_process_slash::<NoDilutionProp>();
 }
-
-
-
