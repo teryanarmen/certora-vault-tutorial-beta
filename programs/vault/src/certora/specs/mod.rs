@@ -12,3 +12,4 @@ pub mod solvency;
 pub mod solvency_processor;
 pub mod utils_math;
 pub mod vault_consistency;
+pub mod inflation_attack;
