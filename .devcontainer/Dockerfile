@@ -17,6 +17,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --de
     cargo certora-sbf --no-build
 
 # Install Certora CLI
-RUN pip install --break-system-packages certora-cli==7.28.0
+# RUN pip install --break-system-packages certora-cli==7.28.0
+RUN pip install --break-system-packages certora-cli-beta==7.29.1
 
 ENTRYPOINT [ "/bin/bash" ]
