@@ -43,17 +43,7 @@ pub fn rule_deposit_must_increase_assets() {
 
 #[rule]
 pub fn rule_deposit_must_increase_shares() {
-    let accounts = cvlr_deserialize_nondet_accounts();
-    let iter = &mut accounts.iter();
-    let vault_info = next_account_info(iter).unwrap();
-    let total_shares_pre = get_vault_total_shares!(vault_info);
-    let amount = nondet();
-
-    process_deposit(&accounts, amount).unwrap();
-
-    let total_shares_post = get_vault_total_shares!(vault_info);
-    clog!(amount, total_shares_pre, total_shares_post);
-    cvlr_assert_ge!(total_shares_post, total_shares_pre);
+    // fill in yourself!
 }
 
 #[rule]
