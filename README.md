@@ -95,26 +95,30 @@ Notation:
 
 Assets should not decrease:
 
-$$ \text{assets}_{\text{post}}  \geq \text{assets}_{\text{pre}}
-$$
+```math
+\text{assets}_{\text{post}}  \geq \text{assets}_{\text{pre}}
+```
+
 
 Shares should not decrease:
 
-$$ \text{shares}_{\text{post}}  \geq \text{shares}_{\text{pre}}
-$$
+```math
+\text{shares}_{\text{post}}  \geq \text{shares}_{\text{pre}}
+```
 
 Monotonicity of assets and shares 
 
-
-$$\text{assets}_{\text{pre}} \leq \text{assets}_{\text{post}} \implies \text{shares}_{\text{pre}}  \leq \text{shares}_{\text{post}}$$
+```math
+\text{assets}_{\text{pre}} \leq \text{assets}_{\text{post}} \implies \text{shares}_{\text{pre}}  \leq \text{shares}_{\text{post}}
+```
 
 ### Vault consistency
 
 The vault must remain consistent with the underlying SPL accounts:
 
-$$ 
+```math
 \text{assets} \leq \text{token}_{\text{amount}} \wedge \text{shares} = \text{mint}_{\text{supply}}
-$$
+```
 
 ### No dilution 
 
@@ -122,9 +126,9 @@ To maintain proportional ownership (except during slashing
 operations), the vault must ensure:
 
 
-$$
-\frac{\text{assets}_{\text{pre}}}{\text{shares}_{\text{pre}}} \leq \frac{\text{assets}_{\text{post}}}{\text{shares}_{\text{post}}}
-$$
+```math
+ \frac{\text{assets}_{\text{pre}}}{\text{shares}_{\text{pre}}} \leq \frac{\text{assets}_{\text{post}}}{\text{shares}_{\text{post}}}
+```
 
 This guarantees that the asset-to-share ratio does not decrease after
 any operation.
@@ -134,7 +138,9 @@ any operation.
 The vault needs to ensure the following invariant to remain solvent:
 
 
-$$ \text{shares} \leq \text{assets}$$
+```math
+\text{shares} \leq \text{assets}
+```
 
 
 ### Fees
@@ -142,8 +148,9 @@ $$ \text{shares} \leq \text{assets}$$
 If a fee rate is configured, then a corresponding fee must be
 deducted:
 
-$$ \text{fee}_{\text{bps}} > 0 \implies \text{fee} > 0 
-$$
+```math
+\text{fee}_{\text{bps}} > 0 \implies \text{fee} > 0 
+```
 
 
 ### Inflation attack
